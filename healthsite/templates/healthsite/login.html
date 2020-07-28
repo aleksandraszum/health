@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <div class="row">
+
+                <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+                    <div class="row">
+
+                        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+                            <main role="main" class="text-center">
+                                <div class="row">
+                                    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+                                        <div class="col">
+                                            <h1>Log In</h1>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="lead">{{ communicate }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <form method="post" action=".">
+                                            {% csrf_token %}
+                                            {{ form.as_p }}
+                                            <input type="submit" class="btn btn-lg btn-secondary" value="Log in"/>
+                                        </form>
+                                    </div>
+                                </div>
+                            </main>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

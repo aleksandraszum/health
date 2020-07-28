@@ -1,0 +1,51 @@
+{% load static %}
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Live healthy! Diet's, sport's and eating habits' planner! </title>
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'style.css' %}" charset="UTF-8">
+    <script src="{% static 'bootstrap.min.js' %}"></script>
+
+</head>
+
+<body>
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+        <div class="inner">
+            {% if login == False %}
+                <nav class="nav nav-masthead justify-content-end">
+                    <a class="nav-link active" href="{% url 'index' %}">Home</a>
+                    <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                    <a class="nav-link" href="{% url 'signup' %}">Sign up</a>
+                </nav>
+            {% else %}
+                <nav class="nav nav-masthead justify-content-end">
+                    <a class="nav-link active" href="{% url 'index' %}">Home</a>
+                    <a class="nav-link" href="/profile">Profile</a>
+                    <a class="nav-link" href="/addmenu">Meal planner</a>
+                    <a class="nav-link" href="/addexercise">Physical Activity</a>
+                    <a class="nav-link" href="/addhabits">Eating Habits</a>
+                    <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                </nav>
+            {% endif %}
+        </div>
+    </header>
+
+
+    <main role="main" class="inner cover">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class=" mt-auto text-center">
+        Copyright © <a class=" font-weight-bold text-decoration-none text-black "
+                       href="https://github.com/aleksandraszum/">
+        Aleksandra Szum </a> 2020
+    </footer>
+
+</div>
+</body>
+</html>

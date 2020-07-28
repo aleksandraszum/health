@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <main role="main" class="text-center">
+                <p>
+                <h1> Welcome {{ user.username }}!</h1></p>
+                <p class="lead">If you want to see a meal planner</p>
+                <p class="lead">
+                    <a href="/meal" class="btn btn-lg btn-secondary">click here</a>
+                </p>
+
+                <p class="lead">If you want to see a physical activity planner</p>
+                <p class="lead">
+                    <a href="/exercise" class="btn btn-lg btn-secondary">click here</a>
+                </p>
+
+                <p class="lead">If you want to see your eating habits</p>
+                <p class="lead">
+                    <a href="/habits" class="btn btn-lg btn-secondary">click here</a>
+                </p>
+
+            </main>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <main role="main" class="text-center">
+                <p>
+                <h4> {{communicate}}</h4></p>
+
+                <p>
+                <h1> Welcome to the Healthy Planner!</h1></p>
+                <p class="lead">If you want to plan meals, your physical activity and work on motivation, this website
+                    is
+                    dedicated for you.</p>
+                <p class="lead">You only have to sign up account and enjoy the possibilities, that this page is gaven
+                    for you.</p>
+                <p class="lead">After logging, you can add a meal plan and physical exercise, which you want to do that
+                    day.</p>
+                <p class="lead">You also have a possibility to define eating habits. The goal those defined habits is
+                    improve you motivation and learning good food practices. You can settle accounts with yourself.</p>
+                <p class="lead">So... stay healthy! </p>
+                <p class="lead">If you have an account:</p>
+                <p class="lead">
+                    <a href="{% url 'login' %}" class="btn btn-lg btn-secondary">Log in</a>
+                </p>
+                <p class="lead"> else: </p>
+                <p class="lead">
+                    <a href="{% url 'signup' %}" class="btn btn-lg btn-secondary">Sign up</a>
+                </p>
+            </main>
+        </div>
+    </div>
+{% endblock %}
