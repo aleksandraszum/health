@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+            <main role="main" class="text-center">
+                <p>
+                <h1> {{ user.username }}'s eating plan history:</h1></p>
+                <div class="container">
+                    <!-- Example row of columns -->
+                    <div class="row">
+                        {% if number == 2 %}
+                            <div class="col-md-4">
+                                <div class="nav-plan"><h2>Your options:
+                                </h2></div>
+                                <br>
+                                <div class="col ">
+                                    <p><a class="btn btn-secondary" href="{% url 'show_today_meal_plan' %}"
+                                          role="button">See
+                                        today's meals</a></p>
+                                </div>
+                                <div class="col">
+                                    <p><a class="btn btn-secondary" href="{% url 'show_previous_meal_plan' %}"
+                                          role="button">See previous meals</a></p>
+                                </div>
+                                <div class="col ">
+                                    <p><a class="btn btn-secondary" href="{% url 'show_future_meal_plan' %}"
+                                          role="button">See
+                                        future meals</a></p>
+                                </div>
+                                <div class="col ">
+                                    <p><a class="btn btn-secondary" href="{% url 'add_meal' %}" role="button">Add meals</a>
+                                </div>
+                                <div class="col">
+                                    <p><a class="btn btn-secondary" href="/addmenu" role="button">Edit meals</a>
+                                </div>
+                            </div>
+
+                        {% else %}
+                            <div class="col-md-3">
+                                <div class="nav-plan"><h2>Your options:
+                                </h2></div>
+                                <br>
+                                <div class="col ">
+                                    <p><a class="btn btn-secondary" href="{% url 'show_today_meal_plan' %}"
+                                          role="button">See
+                                        today's meals</a></p>
+                                </div>
+                                <div class="col">
+                                    <p><a class="btn btn-secondary" href="{% url 'show_previous_meal_plan' %}"
+                                          role="button">See previous meals</a></p>
+                                </div>
+                                <div class="col ">
+                                    <p><a class="btn btn-secondary" href="{% url 'show_future_meal_plan' %}"
+                                          role="button">See
+                                        future meals</a></p>
+                                </div>
+                                <div class="col ">
+                                    <p><a class="btn btn-secondary" href="{% url 'add_meal' %}" role="button">Add meals</a>
+                                </div>
+                                <div class="col">
+                                    <p><a class="btn btn-secondary" href="/addmenu" role="button">Edit meals</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if meals %}
+                            {% for meal in meals %}
+                                {% include 'healthsite/mealitem.html' with meal=meal %}
+                            {% endfor %}
+                        {% else %}
+                            <div class="col-md-9 align-self-center">
+                                <div class="nav-plan">
+                                    <h2>
+                                        <p>No history of planned meals.</p>
+                                    </h2>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <hr>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+{% endblock %}

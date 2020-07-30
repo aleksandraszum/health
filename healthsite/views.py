@@ -1,7 +1,12 @@
-from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render
+import datetime
 
-from healthsite.forms import SignUpForm, LoginForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.shortcuts import render
+from django.utils.datetime_safe import strftime
+
+from healthsite.forms import SignUpForm, LoginForm, AddMealForm
+from healthsite.models import MealPlan
 
 
 def index(request):
@@ -25,7 +30,8 @@ def signup_view(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             communicate = "You have successfully registered!"
-            return render(request, 'healthsite/successfulregistration.html', {'comunicate': communicate, 'login': False})
+            return render(request, 'healthsite/successfulregistration.html',
+                          {'comunicate': communicate, 'login': False})
         return render(request, 'healthsite/signup.html', {'form': form, 'login': False})
 
 
@@ -47,10 +53,12 @@ def login_view(request):
                         return render(request, 'healthsite/indexpage.html', {'form': form, 'login': False})
                     else:
                         communicate = "The account has been disabled."
-                        return render(request, 'healthsite/login.html', {'form': form, 'communicate': communicate, 'login': False})
+                        return render(request, 'healthsite/login.html',
+                                      {'form': form, 'communicate': communicate, 'login': False})
                 else:
                     communicate = "Login or password are incorrect."
-                    return render(request, 'healthsite/login.html', {'form': form, 'communicate': communicate, 'login': False})
+                    return render(request, 'healthsite/login.html',
+                                  {'form': form, 'communicate': communicate, 'login': False})
         else:
             form = LoginForm()
             return render(request, 'healthsite/login.html', {'form': form, 'login': False})
@@ -62,5 +70,122 @@ def logout_view(request):
         logout(request)
         communicate = "Successfully logged out!"
         return render(request, 'healthsite/homepage.html', {'communicate': communicate, 'login': False})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def show_meal_plan(request):
+    if request.user.is_authenticated:
+        user = request.user
+        date = datetime.date.today()
+        yesterday = date - datetime.timedelta(days=1)
+        tomorrow = date + datetime.timedelta(days=1)
+        try:
+            today_meal = MealPlan.objects.get(user=user, date=date)
+        except MealPlan.DoesNotExist:
+            today_meal = False
+        try:
+            yesterday_meal = MealPlan.objects.get(user=user, date=yesterday)
+            print('breakfast:', yesterday_meal.breakfast)
+        except MealPlan.DoesNotExist:
+            yesterday_meal = False
+
+        try:
+            tomorrow_meal = MealPlan.objects.get(user=user, date=tomorrow)
+        except MealPlan.DoesNotExist:
+            tomorrow_meal = False
+
+        return render(request, 'healthsite/showmeal.html',
+                      {'user': user, 'login': True, 'today': today_meal, 'yesterday': yesterday_meal,
+                       'tomorrow': tomorrow_meal})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def show_previous_meal_plan(request):
+    if request.user.is_authenticated:
+        user = request.user
+        try:
+            meals = MealPlan.objects.filter(user=user).exclude(
+                date__gt=datetime.date.today() - datetime.timedelta(days=1))
+        except MealPlan.DoesNotExist:
+            meals = False
+
+        number = 0
+        if meals.count() == 1:
+            number = 1
+        elif meals.count() == 2:
+            number = 2
+        else:
+            number = 3
+
+        return render(request, 'healthsite/showpreviousmeal.html',
+                      {'user': user, 'login': True, 'meals': meals, 'number': number})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def show_future_meal_plan(request):
+    if request.user.is_authenticated:
+        user = request.user
+        try:
+            meals = MealPlan.objects.filter(user=user).exclude(
+                date__lt=datetime.date.today() + datetime.timedelta(days=1))
+        except MealPlan.DoesNotExist:
+            meals = False
+
+        number = 0
+        if meals.count() == 1:
+            number = 1
+        elif meals.count() == 2:
+            number = 2
+        else:
+            number = 3
+
+        return render(request, 'healthsite/showfuturemeal.html',
+                      {'user': user, 'login': True, 'meals': meals, 'number': number})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def show_today_meal_plan(request):
+    if request.user.is_authenticated:
+        user = request.user
+        try:
+            meals = MealPlan.objects.get(user=user, date=datetime.date.today())
+        except MealPlan.DoesNotExist:
+            meals = False
+
+        return render(request, 'healthsite/showtodaymeal.html',
+                      {'user': user, 'login': True, 'meals': meals})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def add_meal(request):
+    if request.user.is_authenticated:
+        user = request.user.id
+        if request.method == 'POST':
+            form = AddMealForm(request.POST)
+            if form.is_valid():
+                date = form['date'].value()
+                if MealPlan(user=User(pk=user), date=date).DoesNotExist:
+                    breakfast = str(form['breakfast'].value())
+                    lunch = str(form['lunch'].value())
+                    dinner = str(form['dinner'].value())
+                    supper = str(form['supper'].value())
+                    meal = MealPlan(user=User(pk=user), date=date, breakfast=breakfast, lunch=lunch, dinner=dinner,
+                                    supper=supper)
+                    meal.save()
+                    return render(request, 'healthsite/successfuladdmeal.html', {"login": True, 'date': date})
+                else:
+                    unique_error = "User and date is already exist."
+                    return render(request, 'healthsite/addmeal.html',
+                                  {'form': form, 'login': True, 'unique_error': unique_error})
+
+            return render(request, 'healthsite/addmeal.html',
+                          {'form': form, 'login': True})
+        form = AddMealForm()
+        return render(request, 'healthsite/addmeal.html', {'form': form, 'login': True})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})

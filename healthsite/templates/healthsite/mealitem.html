@@ -1,0 +1,49 @@
+{% if number == 1 %}
+    <div class="col-md-9">
+        <div class="nav-plan"><h2>
+            {{ meal.date }}
+        </h2></div>
+        <p class="description">
+        <p><h5>Breakfast:</h5> </p>
+        <p>{{ meal.breakfast }}</p>
+        <p><h5>Lunch:</h5> </p>
+        <p>{{ meal.lunch }}</p>
+        <p><h5>Dinner:</h5> </p>
+        <p>{{ meal.dinner }}</p>
+        <p><h5>Supper:</h5> </p>
+        <p>{{ meal.supper }}</p>
+        </p>
+    </div>
+{% elif number == 2 %}
+    <div class="col-md-4">
+        <div class="nav-plan"><h2>
+            {{ meal.date }}
+        </h2></div>
+        <p class="description">
+        <p><h5>Breakfast:</h5> </p>
+        <p>{{ meal.breakfast }}</p>
+        <p><h5>Lunch:</h5> </p>
+        <p>{{ meal.lunch }}</p>
+        <p><h5>Dinner:</h5> </p>
+        <p>{{ meal.dinner }}</p>
+        <p><h5>Supper:</h5> </p>
+        <p>{{ meal.supper }}</p>
+        </p>
+    </div>
+{% else %}
+    <div class="col-md-3">
+        <div class="nav-plan"><h2>
+            {{ meal.date }}
+        </h2></div>
+        <p class="description">
+        <p><h5>Breakfast:</h5> </p>
+        <p>{{ meal.breakfast }}</p>
+        <p><h5>Lunch:</h5> </p>
+        <p>{{ meal.lunch }}</p>
+        <p><h5>Dinner:</h5> </p>
+        <p>{{ meal.dinner }}</p>
+        <p><h5>Supper:</h5> </p>
+        <p>{{ meal.supper }}</p>
+        </p>
+    </div>
+{% endif %}

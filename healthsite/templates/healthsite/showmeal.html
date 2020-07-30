@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <main role="main" class="text-center">
+                <p>
+                <h1> {{ user.username }}'s eating plan:</h1></p>
+                <div class="container">
+                    <!-- Example row of columns -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="nav-plan"><h2>Your options:
+                            </h2></div>
+                            <br>
+                            <div class="col ">
+                                <p><a class="btn btn-secondary" href="{% url 'show_today_meal_plan' %}" role="button">See
+                                    today's meals</a></p>
+                            </div>
+                            <div class="col">
+                                <p><a class="btn btn-secondary" href="{% url 'show_previous_meal_plan' %}"
+                                      role="button">See previous meals</a></p>
+                            </div>
+                            <div class="col ">
+                                <p><a class="btn btn-secondary" href="{% url 'show_future_meal_plan' %}" role="button">See
+                                    future meals</a></p>
+                            </div>
+
+                            <div class="col ">
+                                <p><a class="btn btn-secondary" href="{% url 'add_meal' %}" role="button">Add meals</a>
+                            </div>
+                            <div class="col">
+                                <p><a class="btn btn-secondary" href="/addmenu" role="button">Edit meals</a>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="nav-plan"><h2>Yesterday
+                            </h2></div>
+                            {% if yesterday == False %}
+                                <p> You didn't have meals planned for yesterday. </p>
+                            {% else %}
+                                <p><h5>Breakfast:</h5> </p>
+                                <p>{{ yesterday.breakfast }}</p>
+                                <p><h5>Lunch:</h5> </p>
+                                <p>{{ yesterday.lunch }}</p>
+                                <p><h5>Dinner:</h5> </p>
+                                <p>{{ yesterday.dinner }}</p>
+                                <p><h5>Supper:</h5> </p>
+                                <p>{{ yesterday.supper }}</p>
+
+                                {#                                <div class="row my-padding">#}
+                                {#                                    <div class="col-md-4 "><h5>Breakfast</h5></div>#}
+                                {#                                    <div class="col"><p>{{ yesterday.breakfast }}</p></div>#}
+                                {#                                </div>#}
+                                {#                                <div class="row ">#}
+                                {#                                    <div class="col-md-4 "><h5>Lunch</h5></div>#}
+                                {#                                    <div class="col"><p>{{ yesterday.lunch }}</p></div>#}
+                                {#                                </div>#}
+                                {#                                <div class="row ">#}
+                                {#                                    <div class="col-md-4 "><h5>Dinner</h5></div>#}
+                                {#                                    <div class="col"><p>{{ yesterday.dinner }}</p></div>#}
+                                {#                                </div>#}
+                                {#                                <div class="row ">#}
+                                {#                                    <div class="col-md-4 "><h5>Supper</h5></div>#}
+                                {#                                    <div class="col"><p>{{ yesterday.supper }}</p></div>#}
+                                {#                                </div>#}
+
+                            {% endif %}
+                        </div>
+                        <div class="col-md-3">
+                            <div class="nav-plan"><h2>Today
+                            </h2></div>
+                            {% if today == False %}
+                                <p> You didn't have meals planned for today. </p>
+                            {% else %}
+                                {#                                <div class="row my-padding">#}
+                                {#                                    <div class="col-md-4 "><h5>Breakfast</h5></div>#}
+                                {#                                    <div class="col"><p>{{ today.breakfast }}</p></div>#}
+                                {#                                </div>#}
+                                {#                                <div class="row ">#}
+                                {#                                    <div class="col-md-4 "><h5>Lunch</h5></div>#}
+                                {#                                    <div class="col"><p>{{ today.lunch }}</p></div>#}
+                                {#                                </div>#}
+                                {#                                <div class="row ">#}
+                                {#                                    <div class="col-md-4 "><h5>Dinner</h5></div>#}
+                                {#                                    <div class="col"><p>{{ today.dinner }}</p></div>#}
+                                {#                                </div>#}
+                                {#                                <div class="row ">#}
+                                {#                                    <div class="col-md-4 "><h5>Supper</h5></div>#}
+                                {#                                    <div class="col"><p>{{ today.supper }}</p></div>#}
+                                {#                                </div>#}
+                                <p><h5>Breakfast:</h5> </p>
+                                <p>{{ today.breakfast }}</p>
+                                <p><h5>Lunch:</h5> </p>
+                                <p>{{ today.lunch }}</p>
+                                <p><h5>Dinner:</h5> </p>
+                                <p>{{ today.dinner }}</p>
+                                <p><h5>Supper:</h5> </p>
+                                <p>{{ today.supper }}</p>
+
+
+                            {% endif %}
+                        </div>
+                        <div class="col-md-3">
+                            <div class="nav-plan"><h2>Tomorrow
+                            </h2></div>
+                            {% if tomorrow == False %}
+                                <p> You didn't have meals planned for tomorrow. </p>
+                            {% else %}
+                                <p><h5>Breakfast:</h5> </p>
+                                <p>{{ tomorrow.breakfast }}</p>
+                                <p><h5>Lunch:</h5> </p>
+                                <p>{{ tomorrow.lunch }}</p>
+                                <p><h5>Dinner:</h5> </p>
+                                <p>{{ tomorrow.dinner }}</p>
+                                <p><h5>Supper:</h5> </p>
+                                <p>{{ tomorrow.supper }}</p>
+
+                                {#                                <div class="row my-padding">#}
+                                {#                                    <div class="col-md-4 "><h5>Breakfast</h5></div>#}
+                                {#                                    <div class="col"><p>{{ tomorrow.breakfast }}</p></div>#}
+                                {#                                </div>#}
+                                {#                                <div class="row ">#}
+                                {#                                    <div class="col-md-4 "><h5>Lunch</h5></div>#}
+                                {#                                    <div class="col"><p>{{ tomorrow.lunch }}</p></div>#}
+                                {#                                </div>#}
+                                {#                                <div class="row ">#}
+                                {#                                    <div class="col-md-4 "><h5>Dinner</h5></div>#}
+                                {#                                    <div class="col"><p>{{ tomorrow.dinner }}</p></div>#}
+                                {#                                </div>#}
+                                {#                                <div class="row ">#}
+                                {#                                    <div class="col-md-4 "><h5>Supper</h5></div>#}
+                                {#                                    <div class="col"><p>{{ tomorrow.supper }}</p></div>#}
+                                {#                                </div>#}
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </main>
+        </div>
+    </div>
+{% endblock %}
