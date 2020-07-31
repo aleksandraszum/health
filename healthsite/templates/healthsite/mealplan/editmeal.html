@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+            <main role="main" class="text-center">
+                <div class="container">
+                    <!-- Example row of columns -->
+                    <div class="row">
+                        <div class="col-md-3 ">
+                            <div class="nav-plan"><h2>Your options:
+                            </h2></div>
+                            <br>
+                            <div class="col ">
+                                <p><a class="btn btn-secondary" href="{% url 'show_today_meal_plan' %}"
+                                      role="button">See
+                                    today's meals</a></p>
+                            </div>
+                            <div class="col">
+                                <p><a class="btn btn-secondary" href="{% url 'show_previous_meal_plan' %}"
+                                      role="button">See previous meals</a></p>
+                            </div>
+                            <div class="col ">
+                                <p><a class="btn btn-secondary" href="{% url 'show_future_meal_plan' %}"
+                                      role="button">See
+                                    future meals</a></p>
+                            </div>
+                            <div class="col ">
+                                <p><a class="btn btn-secondary" href="{% url 'add_meal' %}" role="button">Add meals</a>
+                            </div>
+                            <div class="col">
+                                <p><a class="btn btn-secondary" href="{% url 'edit_meal' %}" role="button">Edit
+                                    meals</a>
+                            </div>
+                        </div>
+                        <div class="col-md-9 ">
+                            <div class="nav-plan"><h2>Edit meal plan of the day {{ meals.date }}:
+                            </h2></div>
+
+                            <form method="post" action="..">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    {% if field.errors %}
+                                        {% for error in field.errors %}
+                                            <p style="color: darkblue">{{ error }}</p>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <p> {{ field.label_tag }}<br>
+                                        {{ field }}
+                                    </p>
+                                {% endfor %}
+                                <input type="submit" class="btn btn-lg btn-secondary" value="Edit"/>
+                                <hr>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}

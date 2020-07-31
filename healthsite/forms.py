@@ -46,3 +46,15 @@ class AddMealForm(forms.ModelForm):
             'lunch': forms.TextInput(attrs={'size': '50'}),
             'supper': forms.TextInput(attrs={'size': '50'}),
         }
+
+
+class EditMealForm(forms.ModelForm):
+    class Meta:
+        model = MealPlan
+        fields = ('breakfast', 'lunch', 'dinner', 'supper')
+        widgets = {
+            'breakfast': forms.TextInput(attrs={'size': '50'}),
+            'dinner': forms.TextInput(attrs={'size': '50'}),
+            'lunch': forms.TextInput(attrs={'size': '50'}),
+            'supper': forms.TextInput(attrs={'size': '50'}),
+        }

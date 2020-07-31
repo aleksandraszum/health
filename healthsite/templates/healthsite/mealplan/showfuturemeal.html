@@ -8,7 +8,7 @@
 
             <main role="main" class="text-center">
                 <p>
-                <h1> {{ user.username }}'s eating plan history:</h1></p>
+                <h1> {{ user.username }}'s meals in the future:</h1></p>
                 <div class="container">
                     <!-- Example row of columns -->
                     <div class="row">
@@ -32,10 +32,11 @@
                                         future meals</a></p>
                                 </div>
                                 <div class="col ">
-                                    <p><a class="btn btn-secondary" href="{% url 'add_meal' %}" role="button">Add meals</a>
+                                    <p><a class="btn btn-secondary" href="{% url 'add_meal' %}" role="button">Add
+                                        meals</a>
                                 </div>
                                 <div class="col">
-                                    <p><a class="btn btn-secondary" href="/addmenu" role="button">Edit meals</a>
+                                    <p><a class="btn btn-secondary" href="{% url 'edit_meal' %}" role="button">Edit meals</a>
                                 </div>
                             </div>
 
@@ -59,30 +60,32 @@
                                         future meals</a></p>
                                 </div>
                                 <div class="col ">
-                                    <p><a class="btn btn-secondary" href="{% url 'add_meal' %}" role="button">Add meals</a>
+                                    <p><a class="btn btn-secondary" href="{% url 'add_meal' %}" role="button">Add
+                                        meals</a>
                                 </div>
                                 <div class="col">
-                                    <p><a class="btn btn-secondary" href="/addmenu" role="button">Edit meals</a>
+                                    <p><a class="btn btn-secondary" href="{% url 'edit_meal' %}" role="button">Edit meals</a>
                                 </div>
                             </div>
                         {% endif %}
                         {% if meals %}
                             {% for meal in meals %}
-                                {% include 'healthsite/mealitem.html' with meal=meal %}
+                                {% include 'healthsite/mealplan/mealitem.html' with meal=meal %}
                             {% endfor %}
                         {% else %}
                             <div class="col-md-9 align-self-center">
                                 <div class="nav-plan">
                                     <h2>
-                                        <p>No history of planned meals.</p>
+                                        <p>No planned meals.</p>
                                     </h2>
                                 </div>
                             </div>
                         {% endif %}
-                        <hr>
                     </div>
+                    <hr>
                 </div>
             </main>
         </div>
     </div>
+
 {% endblock %}

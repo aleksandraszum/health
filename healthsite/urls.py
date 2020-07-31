@@ -13,8 +13,6 @@ urlpatterns = [
     url(r'^futuremeal/$', views.show_future_meal_plan, name='show_future_meal_plan'),
     url(r'^todaymeal/$', views.show_today_meal_plan, name='show_today_meal_plan'),
     url(r'^addmeal/$', views.add_meal, name='add_meal'),
-
-    #url(r'^buy/$', views.buy, name='buy'),
-    #url(r'^use/$', views.use, name='use'),
-    #url(r'^utylize/$', views.utylize, name='utylize'),
+    url(r'^editmeal/$', views.meal_edit, name='edit_meal'),
+    url(r'^editmeal/([0-9]+)/$', views.meal_edit_pk, name='edit_meal_pk'),
 ]
