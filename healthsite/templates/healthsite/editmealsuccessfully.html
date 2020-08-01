@@ -37,25 +37,9 @@
                             </div>
                         </div>
                         <div class="col-md-9 align-self-center">
-                            <div class="nav-plan align-self-center"><h2>Create meal plan!
+                            <div class="nav-plan align-self-center"><h2>You've successfully edit your meal plan
+                                for {{ day.date|date:"d-m-y" }}!
                             </h2></div>
-                            <form method="post" action="..">
-                                {% csrf_token %}
-                                {% if unique_error %}
-                                    <p style="color: darkblue"> {{ unique_error }}</p><br>
-                                {% endif %}
-                                {% for field in form %}
-                                    {% if field.errors %}
-                                        {% for error in field.errors %}
-                                            <p style="color: darkblue">{{ error }}</p>
-                                        {% endfor %}
-                                    {% endif %}
-                                    <p> {{ field.label_tag }}<br>
-                                        {{ field }}
-                                    </p>
-                                {% endfor %}
-                                <input type="submit" class="btn btn-lg btn-secondary" value="Add"/>
-                            </form>
                         </div>
                     </div>
                     <hr>

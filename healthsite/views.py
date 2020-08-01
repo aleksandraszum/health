@@ -95,7 +95,7 @@ def show_meal_plan(request):
         except MealPlan.DoesNotExist:
             tomorrow_meal = False
 
-        return render(request, 'healthsite/mealplan/showmeal.html',
+        return render(request, 'healthsite/showmeal.html',
                       {'user': user, 'login': True, 'today': today_meal, 'yesterday': yesterday_meal,
                        'tomorrow': tomorrow_meal})
     else:
@@ -119,7 +119,7 @@ def show_previous_meal_plan(request):
         else:
             number = 3
 
-        return render(request, 'healthsite/mealplan/showpreviousmeal.html',
+        return render(request, 'healthsite/showpreviousmeal.html',
                       {'user': user, 'login': True, 'meals': meals, 'number': number})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})
@@ -142,7 +142,7 @@ def show_future_meal_plan(request):
         else:
             number = 3
 
-        return render(request, 'healthsite/mealplan/showfuturemeal.html',
+        return render(request, 'healthsite/showfuturemeal.html',
                       {'user': user, 'login': True, 'meals': meals, 'number': number})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})
@@ -156,7 +156,7 @@ def show_today_meal_plan(request):
         except MealPlan.DoesNotExist:
             meals = False
 
-        return render(request, 'healthsite/mealplan/showtodaymeal.html',
+        return render(request, 'healthsite/showtodaymeal.html',
                       {'user': user, 'login': True, 'meals': meals})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})
@@ -169,24 +169,29 @@ def add_meal(request):
             form = AddMealForm(request.POST)
             if form.is_valid():
                 date = form['date'].value()
-                if MealPlan(user=User(pk=user), date=date).DoesNotExist:
-                    breakfast = str(form['breakfast'].value())
-                    lunch = str(form['lunch'].value())
-                    dinner = str(form['dinner'].value())
-                    supper = str(form['supper'].value())
-                    meal = MealPlan(user=User(pk=user), date=date, breakfast=breakfast, lunch=lunch, dinner=dinner,
-                                    supper=supper)
-                    meal.save()
-                    return render(request, 'healthsite/mealplan/successfuladdmeal.html', {"login": True, 'date': date})
-                else:
+                try:
+                    meals = MealPlan.objects.get(user=User(pk=user), date=date)
                     unique_error = "User and date is already exist."
-                    return render(request, 'healthsite/mealplan/addmeal.html',
-                                  {'form': form, 'login': True, 'unique_error': unique_error})
+                    return render(request, 'healthsite/addmeal.html',
+                                  {'form': form, 'login': True, 'error': unique_error})
 
-            return render(request, 'healthsite/mealplan/addmeal.html',
-                          {'form': form, 'login': True})
+                except MealPlan.DoesNotExist:
+                    meals = False
+
+                breakfast = str(form['breakfast'].value())
+                lunch = str(form['lunch'].value())
+                dinner = str(form['dinner'].value())
+                supper = str(form['supper'].value())
+                meal = MealPlan(user=User(pk=user), date=date, breakfast=breakfast, lunch=lunch, dinner=dinner,
+                                supper=supper)
+                meal.save()
+                return render(request, 'healthsite/successfuladdmeal.html', {"login": True, 'date': date})
+            date_error = "Date cannot be in the past"
+            form = AddMealForm()
+            return render(request, 'healthsite/addmeal.html', {'form': form, 'login': True, 'error': date_error})
         form = AddMealForm()
-        return render(request, 'healthsite/mealplan/addmeal.html', {'form': form, 'login': True})
+        return render(request, 'healthsite/addmeal.html', {'form': form, 'login': True})
+
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})
 
@@ -201,7 +206,7 @@ def meal_edit(request):
             meals = False
         for meal in meals:
             print(meal.date)
-        return render(request, 'healthsite/mealplan/edit.html', {'login': True, 'meals': meals})
+        return render(request, 'healthsite/edit.html', {'login': True, 'meals': meals})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})
 
@@ -218,9 +223,9 @@ def meal_edit_pk(request, meal_id):
                 plan.pk = meal_id
                 plan.save()
 
-            return render(request, 'healthsite/mealplan/editmealsuccessfully.html',
+            return render(request, 'healthsite/editmealsuccessfully.html',
                           {'form': form, 'login': True, 'day': meals})
         form = EditMealForm(instance=meals)
-        return render(request, 'healthsite/mealplan/editmeal.html', {'form': form, 'login': True, 'day': meals})
+        return render(request, 'healthsite/editmeal.html', {'form': form, 'login': True, 'day': meals})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})
