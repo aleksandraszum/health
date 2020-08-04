@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load embed_video_tags %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+            <main role="main" class="text-center">
+                <div class="container">
+                    <!-- Example row of columns -->
+                    <div class="row">
+                        <div class="col-md-3 ">
+                            <div class="nav-plan"><h2>Your options:
+                            </h2></div>
+                        </div>
+                        <div class="col-md-9 ">
+                            <div class="nav-plan"><h2>Exercise plan for {{ date|date:"d-m-y" }}:
+                            </h2></div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-md-3 ">
+                            <div>
+                                {% include 'healthsite/exercise.html'%}
+                            </div>
+                        </div>
+                        <div class="col-md-2 ">
+                            <div>
+                                <a href="/exercise/1/{{ date|date:"d/m/y" }}/">
+                                    <svg width="156" height="80">
+                                        <polygon points="5,45 25,20 25,30 98,30 98,55 25,55 25,65"
+                                                 style="fill:green;stroke:black;stroke-width:1"></polygon>
+                                        <text x="15" y="50" fill="white" font-weight="bold">PREVIOUS</text>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-5 ">
+                            <div>
+                                {% if exercise %}
+                                    <p> {{ exercise.exercise }}</p>
+                                    <div>
+                                        {% video exercise.movie 'tiny' %}
+                                    </div>
+                                {% else %}
+                                    <div class=" align-self-center"><h2>You don't have exercise plan for that day.
+                                    </h2></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-2 ">
+                            <div>
+                                <a href="/exercise/2/{{ date|date:"d/m/y" }}/">
+                                    <svg width="156" height="80">
+                                        <polygon points="151,45 131,20 131,30 53,30 53,55 131,55 131,65"
+                                                 style="fill:green;stroke:black;stroke-width:1"></polygon>
+                                        <text x="76" y="50" fill="white" font-weight="bold">NEXT</text>
+                                    </svg>
+                                </a></div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}

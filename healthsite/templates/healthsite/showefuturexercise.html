@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load embed_video_tags %}
+
+{% block content %}
+
+    <div class="row ">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+            <main role="main" class="text-center">
+                <div class="container">
+                    <!-- Example row of columns -->
+                    <div class="row">
+                        <div class="col-md-3 ">
+                            <div class="nav-plan"><h2>Your options:
+                            </h2></div>
+                        </div>
+                        <div class="col-md-3 ">
+                            <div class="nav-plan"><h2>Exercise plan for {{ date_1|date:"d-m-y" }}:
+                            </h2></div>
+                        </div>
+                        <div class="col-md-3 ">
+                            <div class="nav-plan"><h2>Exercise plan for {{ date_2|date:"d-m-y" }}:
+                            </h2></div>
+                        </div>
+                        <div class="col-md-3 ">
+                            <div class="nav-plan"><h2>Exercise plan for {{ date_3|date:"d-m-y" }}:
+                            </h2></div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-md-3 ">
+                            <div>
+                                {% include 'healthsite/exercise.html' %}
+                            </div>
+                        </div>
+                        <div class="col-md-3 ">
+                            <div>
+                                {% if exercise_1 %}
+                                    <p> {{ exercise_1.exercise }}</p>
+                                    <div>
+                                        {% video exercise_1.movie '250x200' %}
+                                    </div>
+                                {% else %}
+                                    <div class=" align-self-center"><h2>You don't have exercise plan for that day.
+                                    </h2></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-3 ">
+                            <div>
+                                {% if exercise_2 %}
+                                    <p> {{ exercise_2.exercise }}</p>
+                                    <div>
+                                        {% video exercise_2.movie '250x200' %}
+                                    </div>
+                                {% else %}
+                                    <div class=" align-self-center"><h2>You don't have exercise plan for that day.
+                                    </h2></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-3 ">
+                            <div>
+                                {% if exercise_3 %}
+                                    <p> {{ exercise_3.exercise }}</p>
+                                    <div>
+                                        {% video exercise_3.movie '250x200' %}
+                                    </div>
+                                {% else %}
+                                    <div class=" align-self-center"><h2>You don't have exercise plan for that day.
+                                    </h2></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}

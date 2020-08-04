@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.utils.datetime_safe import strftime
 
 from healthsite.forms import SignUpForm, LoginForm, AddMealForm, EditMealForm
-from healthsite.models import MealPlan
+from healthsite.models import MealPlan, Exercise
 
 
 def index(request):
@@ -227,5 +227,85 @@ def meal_edit_pk(request, meal_id):
                           {'form': form, 'login': True, 'day': meals})
         form = EditMealForm(instance=meals)
         return render(request, 'healthsite/editmeal.html', {'form': form, 'login': True, 'day': meals})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def show_exercise_plan(request):
+    if request.user.is_authenticated:
+        user = request.user
+        date = datetime.date.today()
+        try:
+            exercise = Exercise.objects.get(user=user, date=date)
+        except Exercise.DoesNotExist:
+            exercise = False
+
+        return render(request, 'healthsite/showexercise.html',
+                      {'user': user, 'login': True, 'exercise': exercise, 'date': date})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def show_previous_or_next_exercise_plan(request, option, day, month, year):
+    if request.user.is_authenticated:
+        user = request.user
+        year = 2000 + int(year)
+        date = datetime.date(year, int(month), int(day))
+
+        if int(option) == 1:
+            date = date - datetime.timedelta(days=1)
+        else:
+            date = date + datetime.timedelta(days=1)
+
+        try:
+            exercise = Exercise.objects.get(user=user, date=date)
+        except Exercise.DoesNotExist:
+            exercise = False
+        return render(request, 'healthsite/showexercise.html',
+                      {'user': user, 'login': True, 'exercise': exercise, 'date': date})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def show_today_exercise_plan(request):
+    if request.user.is_authenticated:
+        user = request.user
+        date = datetime.date.today()
+        try:
+            exercise = Exercise.objects.get(user=user, date=date)
+        except Exercise.DoesNotExist:
+            exercise = False
+
+        return render(request, 'healthsite/showetodayxercise.html',
+                      {'user': user, 'login': True, 'exercise': exercise, 'date': date})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def show_future_exercise_plan(request):
+    if request.user.is_authenticated:
+        user = request.user
+        date_1 = datetime.date.today()
+        date_2 = datetime.date.today() + datetime.timedelta(days=1)
+        date_3 = datetime.date.today() + datetime.timedelta(days=2)
+
+        try:
+            exercise_1 = Exercise.objects.get(user=user, date=date_1)
+        except Exercise.DoesNotExist:
+            exercise_1 = False
+        print(exercise_1)
+        try:
+            exercise_2 = Exercise.objects.get(user=user, date=date_2)
+        except Exercise.DoesNotExist:
+            exercise_2 = False
+
+        try:
+            exercise_3 = Exercise.objects.get(user=user, date=date_3)
+        except Exercise.DoesNotExist:
+            exercise_3 = False
+
+        return render(request, 'healthsite/showefuturexercise.html',
+                      {'user': user, 'login': True, 'exercise_1': exercise_1, 'date_1': date_1,
+                       'exercise_2': exercise_2, 'date_2': date_2, 'exercise_3': exercise_3, 'date_3': date_3})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})

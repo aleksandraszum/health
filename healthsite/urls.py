@@ -15,4 +15,10 @@ urlpatterns = [
     url(r'^addmeal/$', views.add_meal, name='add_meal'),
     url(r'^editmeal/$', views.meal_edit, name='edit_meal'),
     url(r'^editmeal/([0-9]+)/$', views.meal_edit_pk, name='edit_meal_pk'),
+    url(r'^exercise/$', views.show_exercise_plan, name='show_exercise_plan'),
+    url(r'^exercise/([1-2])/([0-9]+)/([0-9]+)/([0-9]+)/$', views.show_previous_or_next_exercise_plan,
+        name='show_previous_or_next_exercise_plan'),
+    url(r'^todayexercise/$', views.show_today_exercise_plan, name='show_today_exercise_plan'),
+    url(r'^futureexercise/$', views.show_future_exercise_plan, name='show_future_exercise_plan'),
+
 ]
