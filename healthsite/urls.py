@@ -20,5 +20,8 @@ urlpatterns = [
         name='show_previous_or_next_exercise_plan'),
     url(r'^todayexercise/$', views.show_today_exercise_plan, name='show_today_exercise_plan'),
     url(r'^futureexercise/$', views.show_future_exercise_plan, name='show_future_exercise_plan'),
+    url(r'^addexercise/$', views.add_exercise, name='add_exercise'),
+    url(r'^editexercise/$', views.edit_exercise, name='edit_exercise'),
+    url(r'^editexercise/([0-9]+)/$', views.exercise_edit_pk, name='exercise_meal_pk'),
 
 ]

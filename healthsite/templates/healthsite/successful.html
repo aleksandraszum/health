@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load embed_video_tags %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+            <main role="main" class="text-center">
+                <div class="container">
+                    <!-- Example row of columns -->
+                    <div class="row align-items-center">
+                        <div class="col-md-3 ">
+                            <div class="nav-plan"><h2>Your options
+                            </h2></div>
+                            <div>
+                                {% include 'healthsite/exercise.html' %}
+                            </div>
+
+                        </div>
+                        <div class="col-md-9 ">
+                            <div class="nav-plan"><h2>{{ communicate }}.
+                            </h2></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}

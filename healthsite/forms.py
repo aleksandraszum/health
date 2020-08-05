@@ -6,12 +6,7 @@ from django.forms import DateInput
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from healthsite.models import MealPlan
-
-"""def validate_date(date):
-    if date < timezone.now().date():
-        raise ValidationError(_("Date cannot be in the past"))
-"""
+from healthsite.models import MealPlan, Exercise
 
 
 class SignUpForm(UserCreationForm):
@@ -57,4 +52,31 @@ class EditMealForm(forms.ModelForm):
             'dinner': forms.TextInput(attrs={'size': '50'}),
             'lunch': forms.TextInput(attrs={'size': '50'}),
             'supper': forms.TextInput(attrs={'size': '50'}),
+        }
+
+
+class AddExercisePlanForm(forms.ModelForm):
+    def clean_date(self):
+        date = self.cleaned_data['date']
+        if date < timezone.now().date():
+            raise forms.ValidationError(message='Date cannot be in the past')
+        return date
+
+    class Meta:
+        model = Exercise
+        fields = ('date', 'exercise', 'movie')
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'exercise': forms.TextInput(attrs={'size': '50'}),
+            'movie': forms.TextInput(attrs={'size': '50'}),
+        }
+
+
+class EditExerciseForm(forms.ModelForm):
+    class Meta:
+        model = Exercise
+        fields = ('exercise', 'movie')
+        widgets = {
+            'exercise': forms.TextInput(attrs={'size': '50'}),
+            'movie': forms.TextInput(attrs={'size': '50'}),
         }

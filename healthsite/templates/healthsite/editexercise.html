@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load embed_video_tags %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+            <main role="main" class="text-center">
+                <div class="container">
+                    <!-- Example row of columns -->
+                    <div class="row">
+                        <div class="col-md-3 ">
+                            <div class="nav-plan"><h2>Your options
+                            </h2></div>
+                        </div>
+                        <div class="col-md-9 ">
+                            <div class="nav-plan"><h2>Choose date
+                            </h2></div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-md-3 ">
+                            <div>
+                                {% include 'healthsite/exercise.html' %}
+                            </div>
+                        </div>
+                        <div class="col-md-9 ">
+                        {% if exercises == False %}
+                            <div class="col-md-8"><p> You do not have nothing to change. </p></div>
+                        {% else %}
+                            {% for exercise in exercises %}
+                                {% include 'healthsite/edititem.html' with item=exercise name="exercise" %}
+                            {% endfor %}
+                        {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}

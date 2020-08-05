@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.utils.datetime_safe import strftime
 
-from healthsite.forms import SignUpForm, LoginForm, AddMealForm, EditMealForm
+from healthsite.forms import SignUpForm, LoginForm, AddMealForm, EditMealForm, AddExercisePlanForm, EditExerciseForm
 from healthsite.models import MealPlan, Exercise
 
 
@@ -307,5 +307,68 @@ def show_future_exercise_plan(request):
         return render(request, 'healthsite/showefuturexercise.html',
                       {'user': user, 'login': True, 'exercise_1': exercise_1, 'date_1': date_1,
                        'exercise_2': exercise_2, 'date_2': date_2, 'exercise_3': exercise_3, 'date_3': date_3})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def add_exercise(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = AddExercisePlanForm(request.POST)
+            if form.is_valid():
+                date = form['date'].value()
+                try:
+                    exercise = Exercise.objects.get(user=User(pk=request.user.id), date=date)
+                    unique_error = "User and date is already exist."
+                    return render(request, 'healthsite/addexercise.html',
+                                  {'form': form, 'login': True, 'error': unique_error})
+
+                except Exercise.DoesNotExist:
+                    exercise = False
+
+                exercise = str(form['exercise'].value())
+                movie = str(form['movie'].value())
+                exercise = Exercise(user=User(pk=request.user.id), date=date, exercise=exercise, movie=movie)
+                exercise.save()
+                communicate = "You add exercise plan successfully."
+                return render(request, 'healthsite/successful.html',
+                              {"login": True, 'communicate': communicate})
+            date_error = "Date cannot be in the past"
+            form = AddExercisePlanForm()
+            return render(request, 'healthsite/addexercise.html', {'form': form, 'login': True, 'error': date_error})
+        form = AddExercisePlanForm()
+        return render(request, 'healthsite/addexercise.html', {'form': form, 'login': True})
+
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def edit_exercise(request):
+    if request.user.is_authenticated:
+        try:
+            exercises = Exercise.objects.filter(user=request.user.id).exclude(
+                date__lt=datetime.date.today())
+        except Exercise.DoesNotExist:
+            exercises = False
+        return render(request, 'healthsite/editexercise.html', {'login': True, 'exercises': exercises})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def exercise_edit_pk(request, exercise_id):
+    if request.user.is_authenticated:
+        exercise = Exercise.objects.get(pk=exercise_id)
+        if request.method == 'POST':
+            form = EditExerciseForm(request.POST, instance=exercise)
+            if form.is_valid():
+                plan = form.save(commit=False)
+                plan.user = User(pk=request.user.id)
+                plan.pk = exercise_id
+                plan.save()
+            communicate = "Edit plan successfully."
+            return render(request, 'healthsite/successful.html',
+                          {'login': True, 'communicate': communicate})
+        form = EditExerciseForm(instance=exercise)
+        return render(request, 'healthsite/editexercisepk.html', {'form': form, 'login': True})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})

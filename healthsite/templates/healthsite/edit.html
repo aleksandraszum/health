@@ -47,7 +47,7 @@
                             <div class="col-md-8"><p> You do not have nothing to change. </p></div>
                         {% else %}
                             {% for meal in meals %}
-                                {% include 'healthsite/mealedititem.html' with meal=meal %}
+                                {% include 'healthsite/edititem.html' with item=meal name="meal" %}
                             {% endfor %}
                         {% endif %}
 
