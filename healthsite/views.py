@@ -86,7 +86,6 @@ def show_meal_plan(request):
             today_meal = False
         try:
             yesterday_meal = MealPlan.objects.get(user=user, date=yesterday)
-            print('breakfast:', yesterday_meal.breakfast)
         except MealPlan.DoesNotExist:
             yesterday_meal = False
 
@@ -204,8 +203,6 @@ def meal_edit(request):
                 date__lt=datetime.date.today())
         except MealPlan.DoesNotExist:
             meals = False
-        for meal in meals:
-            print(meal.date)
         return render(request, 'healthsite/edit.html', {'login': True, 'meals': meals})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})
@@ -276,7 +273,7 @@ def show_today_exercise_plan(request):
         except Exercise.DoesNotExist:
             exercise = False
 
-        return render(request, 'healthsite/showetodayxercise.html',
+        return render(request, 'healthsite/showtodayxercise.html',
                       {'user': user, 'login': True, 'exercise': exercise, 'date': date})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})
@@ -288,12 +285,16 @@ def show_future_exercise_plan(request):
         date_1 = datetime.date.today()
         date_2 = datetime.date.today() + datetime.timedelta(days=1)
         date_3 = datetime.date.today() + datetime.timedelta(days=2)
+        date_4 = datetime.date.today() + datetime.timedelta(days=3)
+        date_5 = datetime.date.today() + datetime.timedelta(days=4)
+        date_6 = datetime.date.today() + datetime.timedelta(days=5)
+        date_7 = datetime.date.today() + datetime.timedelta(days=6)
 
         try:
             exercise_1 = Exercise.objects.get(user=user, date=date_1)
         except Exercise.DoesNotExist:
             exercise_1 = False
-        print(exercise_1)
+
         try:
             exercise_2 = Exercise.objects.get(user=user, date=date_2)
         except Exercise.DoesNotExist:
@@ -304,9 +305,31 @@ def show_future_exercise_plan(request):
         except Exercise.DoesNotExist:
             exercise_3 = False
 
-        return render(request, 'healthsite/showefuturexercise.html',
+        try:
+            exercise_4 = Exercise.objects.get(user=user, date=date_4)
+        except Exercise.DoesNotExist:
+            exercise_4 = False
+
+        try:
+            exercise_5 = Exercise.objects.get(user=user, date=date_5)
+        except Exercise.DoesNotExist:
+            exercise_5 = False
+
+        try:
+            exercise_6 = Exercise.objects.get(user=user, date=date_6)
+        except Exercise.DoesNotExist:
+            exercise_6 = False
+
+        try:
+            exercise_7 = Exercise.objects.get(user=user, date=date_7)
+        except Exercise.DoesNotExist:
+            exercise_7 = False
+
+        return render(request, 'healthsite/showfuturexercise.html',
                       {'user': user, 'login': True, 'exercise_1': exercise_1, 'date_1': date_1,
-                       'exercise_2': exercise_2, 'date_2': date_2, 'exercise_3': exercise_3, 'date_3': date_3})
+                       'exercise_2': exercise_2, 'date_2': date_2, 'exercise_3': exercise_3, 'date_3': date_3,
+                       'exercise_4': exercise_4, 'date_4': date_4, 'exercise_5': exercise_5, 'date_5': date_5,
+                       'exercise_6': exercise_6, 'date_6': date_6, 'exercise_7': exercise_7, 'date_7': date_7})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})
 
