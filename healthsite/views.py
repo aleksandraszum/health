@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.utils.datetime_safe import strftime
 
-from healthsite.forms import SignUpForm, LoginForm, AddMealForm, EditMealForm, AddExercisePlanForm, EditExerciseForm
-from healthsite.models import MealPlan, Exercise
+from healthsite.forms import SignUpForm, LoginForm, AddMealForm, EditMealForm, AddExercisePlanForm, EditExerciseForm, \
+    ProfileForm
+from healthsite.models import MealPlan, Exercise, Profile
 
 
 def index(request):
@@ -29,6 +30,9 @@ def signup_view(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
+            print(User(pk=user.pk).pk)
+            profile = Profile(user=User(pk=user.pk))
+            profile.save()
             communicate = "You have successfully registered!"
             return render(request, 'healthsite/successfulregistration.html',
                           {'comunicate': communicate, 'login': False})
@@ -393,5 +397,37 @@ def exercise_edit_pk(request, exercise_id):
                           {'login': True, 'communicate': communicate})
         form = EditExerciseForm(instance=exercise)
         return render(request, 'healthsite/editexercisepk.html', {'form': form, 'login': True})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def profile(request):
+    if request.user.is_authenticated:
+        user = request.user.id
+        profile = Profile.objects.get(user=user)
+        if profile.date_of_birth is not True:
+            now = datetime.datetime.now()
+            age = now.year - profile.date_of_birth.year
+        else:
+            age = "No data"
+        return render(request, 'healthsite/profile.html', {'login': True, 'profile': profile, 'age': age})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def profile_edit(request):
+    if request.user.is_authenticated:
+        user = request.user.id
+        profile = Profile.objects.get(user=user)
+        if request.method == 'POST':
+            form = ProfileForm(request.POST, instance=profile)
+            if form.is_valid():
+                profile_data = form.save(commit=False)
+                profile_data.user = User(pk=user)
+                profile_data.pk = profile.id
+                profile_data.save()
+        form = ProfileForm(instance=profile)
+        print("yolo 2")
+        return render(request, 'healthsite/profileedit.html', {'login': True, 'profile': profile, 'form': form})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})

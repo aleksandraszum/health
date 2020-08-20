@@ -5,4 +5,5 @@ from . import models
 admin.site.register(models.MealPlan)
 admin.site.register(models.EatingHabit)
 admin.site.register(models.Exercise)
+admin.site.register(models.Profile)
 

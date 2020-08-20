@@ -1,3 +1,4 @@
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import User
 from django.db import models
 from embed_video.fields import EmbedVideoField
@@ -43,3 +44,17 @@ class Exercise(models.Model):
 
     class Meta:
         unique_together = [['user', 'date']]
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=50,  blank=True)
+    last_name = models.CharField(max_length=50,  blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+    height = models.IntegerField(null=True, blank=True)
+    actual_weight = models.FloatField(null=True, blank=True)
+    dream_weight = models.FloatField(null=True, blank=True)
+    bmi = models.FloatField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user}"

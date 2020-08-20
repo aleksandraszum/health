@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load embed_video_tags %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+            <main role="main" class="text-center">
+                <div class="container">
+                    <!-- Example row of columns -->
+                    <div class="row">
+                        <div class="col-md-3 ">
+                            <div class="nav-plan"><h2>Your options
+                            </h2></div>
+                        </div>
+                        <div class="col-md-9 ">
+                            <div class="nav-plan"><h2>{{ user }}'s profile
+                            </h2></div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-md-3 ">
+                            <div>
+                                {% include 'healthsite/profileoption.html' %}
+                            </div>
+                        </div>
+                        <div class="col-md-9 ">
+                            <br>
+                            <p>First name: {{ profile.first_name }}</p>
+                            <p>Last name: {{ profile.last_name }}</p>
+                            <p>Date of birth: {{ profile.date_of_birth|date:"d/m/Y" }}</p>
+                            <p>Age: {{ age }} </p>
+                            <p>Height: {{ profile.height }} cm</p>
+                            <p>Actual weight: {{ profile.actual_weight }} kg</p>
+                            <p>Dream weight: {{ profile.dream_weight }} kg</p>
+                            <p>BMI: {{ profile.bmi }}</p>
+                            <hr>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}

@@ -6,7 +6,7 @@ from django.forms import DateInput
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from healthsite.models import MealPlan, Exercise
+from healthsite.models import MealPlan, Exercise, Profile
 
 
 class SignUpForm(UserCreationForm):
@@ -79,4 +79,17 @@ class EditExerciseForm(forms.ModelForm):
         widgets = {
             'exercise': forms.TextInput(attrs={'size': '50'}),
             'movie': forms.TextInput(attrs={'size': '50'}),
+        }
+
+
+class ProfileForm(forms.ModelForm):
+    actual_weight = forms.FloatField(min_value=0)
+    dream_weight = forms.FloatField(min_value=0)
+    height = forms.IntegerField(min_value=0)
+    
+    class Meta:
+        model = Profile
+        fields = ('first_name', 'last_name', 'date_of_birth', 'height', 'actual_weight', 'dream_weight')
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
         }
