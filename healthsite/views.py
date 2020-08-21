@@ -7,7 +7,7 @@ from django.utils.datetime_safe import strftime
 
 from healthsite.forms import SignUpForm, LoginForm, AddMealForm, EditMealForm, AddExercisePlanForm, EditExerciseForm, \
     ProfileForm
-from healthsite.models import MealPlan, Exercise, Profile
+from healthsite.models import MealPlan, Exercise, Profile, Weight
 
 
 def index(request):
@@ -426,8 +426,54 @@ def profile_edit(request):
                 profile_data.user = User(pk=user)
                 profile_data.pk = profile.id
                 profile_data.save()
+                weight_history = Weight(user=User(pk=user), weight=profile.actual_weight)
+                weight_history.save()
         form = ProfileForm(instance=profile)
-        print("yolo 2")
         return render(request, 'healthsite/profileedit.html', {'login': True, 'profile': profile, 'form': form})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def profile_bmi(request):
+    if request.user.is_authenticated:
+        user = request.user.id
+        profile = Profile.objects.get(user=user)
+        bmi = None
+        if profile.actual_weight and profile.height is not None:
+            bmi = profile.actual_weight / (profile.height / 100) ** 2
+            profile.bmi = bmi
+            profile.save()
+        return render(request, 'healthsite/profilebmi.html', {'login': True, 'profile': profile, 'bmi': bmi})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def profile_weight_history(request):
+    if request.user.is_authenticated:
+        user = request.user.id
+        weight = list(Weight.objects.filter(user=User(pk=user)))
+        first_weight = weight[0]
+        actual_weight = weight[-1]
+        dream_weight = Profile.objects.get(user=User(pk=user)).dream_weight
+        first_actual_diff = float(first_weight.weight) - float(actual_weight.weight)
+        if first_actual_diff > 0:
+            communicate1 = "You lost {:.2f} kg".format(first_actual_diff)
+        else:
+            communicate1 = "You put on {:.2f} kg".format(first_actual_diff)
+        goal = actual_weight.weight - dream_weight
+        if goal > 0:
+            communicate2 = "For your goal, you need to lose {:.2f} kg".format(goal)
+        else:
+            communicate2 = "Bravo! You have successfully lose weight!"
+
+        sorted_weight = sorted(weight, key=lambda w: w.weight)
+        min_weight = sorted_weight[0]
+        max_weight = sorted_weight[-1]
+
+        return render(request, 'healthsite/profileweighthistory.html',
+                      {'login': True, 'profile': profile, 'weight': weight, 'sorted_weight': sorted_weight,
+                       'actual_weight': actual_weight, 'first_weight': first_weight, 'min_weight': min_weight,
+                       'max_weight': max_weight, 'dream_weight': dream_weight, 'communicate1': communicate1,
+                       'communicate2': communicate2})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})

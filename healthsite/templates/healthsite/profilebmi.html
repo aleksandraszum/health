@@ -16,7 +16,7 @@
                             </h2></div>
                         </div>
                         <div class="col-md-9 ">
-                            <div class="nav-plan"><h2>{{ user }}'s profile
+                            <div class="nav-plan"><h2>{{ user }}'s BMI
                             </h2></div>
                         </div>
                     </div>
@@ -27,16 +27,24 @@
                             </div>
                         </div>
                         <div class="col-md-9 ">
+                            {% if bmi is not None %}
+                                {% if bmi < 18.5 %}
+                                    <p>Your BMI: {{ bmi }}</p>
+                                    <p>You are underweight!</p>
+                                {% elif bmi < 25 %}
+                                    <p>Your BMI: {{ bmi }}</p>
+                                    <p>You have the correct weight!</p>
+                                {% elif bmi < 30 %}
+                                    <p>Your BMI: {{ bmi }}</p>
+                                    <p>You are overweight!</p>
+                                {% else %}
+                                    <p>Your BMI: {{ bmi }}</p>
+                                    <p>You are obese!</p>
+                                {% endif %}
+                            {% else %}
+                                <p> No data!</p>
+                            {% endif %}
                             <br>
-                            <p>First name: {{ profile.first_name }}</p>
-                            <p>Last name: {{ profile.last_name }}</p>
-                            <p>Date of birth: {{ profile.date_of_birth|date:"d/m/Y" }}</p>
-                            <p>Age: {{ age }} </p>
-                            <p>Height: {{ profile.height }} cm</p>
-                            <p>Actual weight: {{ profile.actual_weight }} kg</p>
-                            <p>Dream weight: {{ profile.dream_weight }} kg</p>
-                            <hr>
-                            </form>
                         </div>
                     </div>
                 </div>

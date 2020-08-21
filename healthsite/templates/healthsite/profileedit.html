@@ -33,7 +33,7 @@
                                 {% for field in form %}
                                     {% if field.errors %}
                                         {% for error in field.errors %}
-                                            <p style="color: darkblue">{{ error }}</p>
+                                            <p style="color: darkblue" >{{ error }}</p>
                                         {% endfor %}
                                     {% endif %}
                                     <p> {{ field.label_tag }}<br>

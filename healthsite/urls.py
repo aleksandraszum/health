@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^editexercise/([0-9]+)/$', views.exercise_edit_pk, name='exercise_meal_pk'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^profile/edit$', views.profile_edit, name='profile_edit'),
-   # url(r'^profile/bmi$', views.profile_bmi, name='profile_bmi'),
+    url(r'^profile/bmi$', views.profile_bmi, name='profile_bmi'),
+    url(r'^profile/weight$', views.profile_weight_history, name='profile_weight_history'),
 
 ]

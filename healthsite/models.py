@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import User
 from django.db import models
@@ -48,8 +50,8 @@ class Exercise(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=50,  blank=True)
-    last_name = models.CharField(max_length=50,  blank=True)
+    first_name = models.CharField(max_length=50, blank=True)
+    last_name = models.CharField(max_length=50, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     height = models.IntegerField(null=True, blank=True)
     actual_weight = models.FloatField(null=True, blank=True)
@@ -58,3 +60,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user}"
+
+
+class Weight(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(default=datetime.now, blank=True)
+    weight = models.FloatField()
+
+    def __str__(self):
+        return f"{self.user} - {self.date}"

@@ -16,7 +16,7 @@
                             </h2></div>
                         </div>
                         <div class="col-md-9 ">
-                            <div class="nav-plan"><h2>{{ user }}'s profile
+                            <div class="nav-plan"><h2>{{ user }}'s BMI
                             </h2></div>
                         </div>
                     </div>
@@ -27,16 +27,14 @@
                             </div>
                         </div>
                         <div class="col-md-9 ">
+                            <p class="font-weight-bold">Current weight</p>
+                            <p>graphs 1</p>
+                            <p>{{ communicate1 }}</p>
+                            <p>{{ communicate2 }}</p>
+
+                            <p class="font-weight-bold">Weight loss story</p>
+                            <p>graphs 2</p>
                             <br>
-                            <p>First name: {{ profile.first_name }}</p>
-                            <p>Last name: {{ profile.last_name }}</p>
-                            <p>Date of birth: {{ profile.date_of_birth|date:"d/m/Y" }}</p>
-                            <p>Age: {{ age }} </p>
-                            <p>Height: {{ profile.height }} cm</p>
-                            <p>Actual weight: {{ profile.actual_weight }} kg</p>
-                            <p>Dream weight: {{ profile.dream_weight }} kg</p>
-                            <hr>
-                            </form>
                         </div>
                     </div>
                 </div>
