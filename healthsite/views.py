@@ -452,28 +452,36 @@ def profile_weight_history(request):
     if request.user.is_authenticated:
         user = request.user.id
         weight = list(Weight.objects.filter(user=User(pk=user)))
-        first_weight = weight[0]
-        actual_weight = weight[-1]
+        first_weight = float(weight[0].weight)
+        actual_weight = float(weight[-1].weight)
         dream_weight = Profile.objects.get(user=User(pk=user)).dream_weight
-        first_actual_diff = float(first_weight.weight) - float(actual_weight.weight)
+        first_actual_diff = first_weight - actual_weight
+        print(first_actual_diff)
         if first_actual_diff > 0:
             communicate1 = "You lost {:.2f} kg".format(first_actual_diff)
+            version = 1
+            middle = (actual_weight - dream_weight) / (first_weight - dream_weight) * 100
+            middle2 = middle - 10
         else:
-            communicate1 = "You put on {:.2f} kg".format(first_actual_diff)
-        goal = actual_weight.weight - dream_weight
+            communicate1 = "You put on {:.2f} kg".format(abs(first_actual_diff))
+            version = 2
+            middle = (first_weight - dream_weight) / (actual_weight - dream_weight) * 100
+            middle2 = middle - 10
+
+        goal = actual_weight - dream_weight
         if goal > 0:
             communicate2 = "For your goal, you need to lose {:.2f} kg".format(goal)
         else:
             communicate2 = "Bravo! You have successfully lose weight!"
-
-        sorted_weight = sorted(weight, key=lambda w: w.weight)
-        min_weight = sorted_weight[0]
-        max_weight = sorted_weight[-1]
+            version = 3
+            middle = (dream_weight - actual_weight) / (first_weight - actual_weight) * 100
+            middle2 = middle - 10
+        print(version)
 
         return render(request, 'healthsite/profileweighthistory.html',
-                      {'login': True, 'profile': profile, 'weight': weight, 'sorted_weight': sorted_weight,
-                       'actual_weight': actual_weight, 'first_weight': first_weight, 'min_weight': min_weight,
-                       'max_weight': max_weight, 'dream_weight': dream_weight, 'communicate1': communicate1,
-                       'communicate2': communicate2})
+                      {'login': True, 'profile': profile, 'weight': weight,
+                       'actual_weight': actual_weight, 'first_weight': first_weight,
+                       'dream_weight': dream_weight, 'communicate1': communicate1,
+                       'communicate2': communicate2, 'version': version, 'middle': middle, 'middle2': middle2})
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})
