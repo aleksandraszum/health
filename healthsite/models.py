@@ -23,10 +23,31 @@ class MealPlan(models.Model):
 
 class EatingHabit(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateField(default=datetime.now)
     habits1 = models.TextField(max_length=200, null=False)
     habits2 = models.TextField(max_length=200, null=False)
     habits3 = models.TextField(max_length=200, null=False)
+    day1 = models.BooleanField(null=True, blank=False)
+    day2 = models.BooleanField(null=True, blank=False)
+    day3 = models.BooleanField(null=True, blank=False)
+    day4 = models.BooleanField(null=True, blank=False)
+    day5 = models.BooleanField(null=True, blank=False)
+    day6 = models.BooleanField(null=True, blank=False)
+    day7 = models.BooleanField(null=True, blank=False)
+    day8 = models.BooleanField(null=True, blank=False)
+    day9 = models.BooleanField(null=True, blank=False)
+    day10 = models.BooleanField(null=True, blank=False)
+    day11 = models.BooleanField(null=True, blank=False)
+    day12 = models.BooleanField(null=True, blank=False)
+    day13 = models.BooleanField(null=True, blank=False)
+    day14 = models.BooleanField(null=True, blank=False)
+    day15 = models.BooleanField(null=True, blank=False)
+    day16 = models.BooleanField(null=True, blank=False)
+    day17 = models.BooleanField(null=True, blank=False)
+    day18 = models.BooleanField(null=True, blank=False)
+    day19 = models.BooleanField(null=True, blank=False)
+    day20 = models.BooleanField(null=True, blank=False)
+    day21 = models.BooleanField(null=True, blank=False)
 
     def __str__(self):
         return f"{self.user} -{self.date}"

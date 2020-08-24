@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load embed_video_tags %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+            <main role="main" class="text-center">
+                <div class="container">
+                    <!-- Example row of columns -->
+                    <div class="row">
+                        <div class="col-md-3 ">
+                            <div class="nav-plan"><h2>Your options
+                            </h2></div>
+                        </div>
+                        <div class="col-md-9 ">
+                            <div class="nav-plan"><h2>{{ user }}'s habits
+                            </h2></div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-md-3 ">
+                            <div>
+                                {% include 'healthsite/habitsoptions.html' %}
+                            </div>
+                        </div>
+                        <div class="col-md-9 ">
+                            <p>The best practice to live healthy is the gradual implementation of healthy habits. </p>
+                            <p>Instead of completely changing your diet and previous physical activity, I suggest you
+                                set yourself weekly goals.</p>
+                            <p>Define 3 habits that you will have to fulfill in the next 3 weeks. Every day, check if
+                                you have met your daily goals.</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}

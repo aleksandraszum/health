@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load embed_video_tags %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+            <main role="main" class="text-center">
+                <div class="container">
+                    <!-- Example row of columns -->
+                    <div class="row">
+                        <div class="col-md-3 ">
+                            <div class="nav-plan"><h2>Your options
+                            </h2></div>
+                        </div>
+                        <div class="col-md-9 ">
+                            <div class="nav-plan"><h2>{{ user }}'s habits
+                            </h2></div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-md-3 ">
+                            <div>
+                                {% include 'healthsite/habitsoptions.html' %}
+                            </div>
+                        </div>
+                        <div class="col-md-9 ">
+                            <div class="row text-center">
+                                <div class="col-12">
+                                    <p>Check if you have met your daily goals! </p></div>
+                                <br>
+                                <div class="col-12">
+                                    <form method="post" action="">
+                                        {% csrf_token %}
+                                        {% if number > 1 %}
+                                            Day 1:
+                                            {{ form.day1 }}
+                                        {% endif %}
+                                        {% if number > 2 %}
+                                            Day 2:
+                                            {{ form.day2 }}
+                                        {% endif %}
+                                        {% if number > 3 %}
+                                            Day 3:
+                                            {{ form.day3 }}
+                                        {% endif %}
+                                        {% if number > 4 %}
+
+                                            Day 4:
+                                            {{ form.day4 }}
+
+                                        {% endif %}
+                                        {% if number > 5 %}
+
+                                            Day 5:
+                                            {{ form.day5 }}
+
+                                        {% endif %}
+                                        {% if number > 6 %}
+                                            Day 6:
+                                            {{ form.day6 }}
+
+                                        {% endif %}
+                                        {% if number > 7 %}
+                                            Day 7:
+                                            {{ form.day7 }}
+
+                                        {% endif %}
+                                        {% if number > 8 %}
+                                            Day 8:
+                                            {{ form.day8 }}
+
+                                        {% endif %}
+                                        {% if number > 9 %}
+                                            Day 9:
+                                            {{ form.day9 }}
+
+                                        {% endif %}
+                                        {% if number > 10 %}
+                                            Day 10:
+                                            {{ form.day10 }}
+
+                                        {% endif %}
+                                        {% if number > 11 %}
+                                            Day 11:
+                                            {{ form.day11 }}
+
+                                        {% endif %}
+                                        {% if number > 12 %}
+                                            Day 12:
+                                            {{ form.day12 }}
+
+                                        {% endif %}
+                                        {% if number > 13 %}
+                                            Day 13:
+                                            {{ form.day13 }}
+
+                                        {% endif %}
+                                        {% if number > 14 %}
+                                            Day 14:
+                                            {{ form.day14 }}
+
+                                        {% endif %}
+                                        {% if number > 15 %}
+                                            Day 15:
+                                            {{ form.day15 }}
+
+                                        {% endif %}
+                                        {% if number > 16 %}
+                                            Day 16:
+                                            {{ form.day16 }}
+
+                                        {% endif %}
+                                        {% if number > 17 %}
+                                            Day 17:
+                                            {{ form.day17 }}
+
+                                        {% endif %}
+                                        {% if number > 18 %}
+                                            Day 18:
+                                            {{ form.day18 }}
+
+                                        {% endif %}
+                                        {% if number > 19 %}
+                                            Day 19:
+                                            {{ form.day19 }}
+
+                                        {% endif %}
+                                        {% if number > 20 %}
+                                            Day 20:
+                                            {{ form.day20 }}
+
+                                        {% endif %}
+                                        {% if number > 21 %}
+                                            Day 21:
+                                            {{ form.day21 }}
+
+                                        {% endif %}
+                                        <p><input type="submit" class="btn btn-lg btn-secondary" value="Save"/></p>
+                                    </form>
+
+                                    {#                                {% for i in range %}#}
+                                    {#                                    {{ i }}#}
+                                    {#                                {% endfor %}#}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+{% endblock %}

@@ -27,5 +27,8 @@ urlpatterns = [
     url(r'^profile/edit$', views.profile_edit, name='profile_edit'),
     url(r'^profile/bmi$', views.profile_bmi, name='profile_bmi'),
     url(r'^profile/weight$', views.profile_weight_history, name='profile_weight_history'),
-
+    url(r'^habits/$', views.habits, name='habits'),
+    url(r'^habits/my$', views.habits_view, name='habits'),
+    url(r'^habits/add$', views.habits_add, name='habits_add'),
+    url(r'^habits/check$', views.habits_check, name='habits_check'),
 ]

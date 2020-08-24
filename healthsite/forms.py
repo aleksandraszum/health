@@ -6,7 +6,7 @@ from django.forms import DateInput
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from healthsite.models import MealPlan, Exercise, Profile
+from healthsite.models import MealPlan, Exercise, Profile, EatingHabit
 
 
 class SignUpForm(UserCreationForm):
@@ -86,10 +86,52 @@ class ProfileForm(forms.ModelForm):
     actual_weight = forms.FloatField(min_value=0)
     dream_weight = forms.FloatField(min_value=0)
     height = forms.IntegerField(min_value=0)
-    
+
     class Meta:
         model = Profile
         fields = ('first_name', 'last_name', 'date_of_birth', 'height', 'actual_weight', 'dream_weight')
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+
+class EatingHabitsForm(forms.ModelForm):
+    class Meta:
+        model = EatingHabit
+        fields = ('habits1', 'habits2', 'habits3')
+        widgets = {
+            'habits1': forms.TextInput(attrs={'size': '50'}),
+            'habits2': forms.TextInput(attrs={'size': '50'}),
+            'habits3': forms.TextInput(attrs={'size': '50'}),
+        }
+
+
+class EatingHabitsCheckForm(forms.ModelForm):
+    class Meta:
+        model = EatingHabit
+        fields = (
+            'day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7', 'day8', 'day9', 'day10', 'day11', 'day12', 'day13',
+            'day14', 'day15', 'day16', 'day17', 'day18', 'day19', 'day20', 'day21')
+        widgets = {
+            'day1': forms.CheckboxInput,
+            'day2': forms.CheckboxInput,
+            'day3': forms.CheckboxInput,
+            'day4': forms.CheckboxInput,
+            'day5': forms.CheckboxInput,
+            'day6': forms.CheckboxInput,
+            'day7': forms.CheckboxInput,
+            'day8': forms.CheckboxInput,
+            'day9': forms.CheckboxInput,
+            'day10': forms.CheckboxInput,
+            'day11': forms.CheckboxInput,
+            'day12': forms.CheckboxInput,
+            'day13': forms.CheckboxInput,
+            'day14': forms.CheckboxInput,
+            'day15': forms.CheckboxInput,
+            'day16': forms.CheckboxInput,
+            'day17': forms.CheckboxInput,
+            'day18': forms.CheckboxInput,
+            'day19': forms.CheckboxInput,
+            'day20': forms.CheckboxInput,
+            'day21': forms.CheckboxInput,
         }

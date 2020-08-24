@@ -6,8 +6,8 @@ from django.shortcuts import render
 from django.utils.datetime_safe import strftime
 
 from healthsite.forms import SignUpForm, LoginForm, AddMealForm, EditMealForm, AddExercisePlanForm, EditExerciseForm, \
-    ProfileForm
-from healthsite.models import MealPlan, Exercise, Profile, Weight
+    ProfileForm, EatingHabitsForm, EatingHabitsCheckForm
+from healthsite.models import MealPlan, Exercise, Profile, Weight, EatingHabit
 
 
 def index(request):
@@ -30,7 +30,6 @@ def signup_view(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
-            print(User(pk=user.pk).pk)
             profile = Profile(user=User(pk=user.pk))
             profile.save()
             communicate = "You have successfully registered!"
@@ -456,7 +455,6 @@ def profile_weight_history(request):
         actual_weight = float(weight[-1].weight)
         dream_weight = Profile.objects.get(user=User(pk=user)).dream_weight
         first_actual_diff = first_weight - actual_weight
-        print(first_actual_diff)
         if first_actual_diff > 0:
             communicate1 = "You lost {:.2f} kg".format(first_actual_diff)
             version = 1
@@ -476,12 +474,91 @@ def profile_weight_history(request):
             version = 3
             middle = (dream_weight - actual_weight) / (first_weight - actual_weight) * 100
             middle2 = middle - 10
-        print(version)
 
         return render(request, 'healthsite/profileweighthistory.html',
                       {'login': True, 'profile': profile, 'weight': weight,
                        'actual_weight': actual_weight, 'first_weight': first_weight,
                        'dream_weight': dream_weight, 'communicate1': communicate1,
                        'communicate2': communicate2, 'version': version, 'middle': middle, 'middle2': middle2})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def habits(request):
+    if request.user.is_authenticated:
+        return render(request, 'healthsite/habits.html',
+                      {'login': True})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def habits_view(request):
+    if request.user.is_authenticated:
+        user = request.user.id
+        habits = EatingHabit.objects.filter(user=User(pk=user))
+
+        return render(request, 'healthsite/habitsview.html',
+                      {'login': True, 'habits': habits})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def habits_add(request):
+    if request.user.is_authenticated:
+        user = request.user.id
+        if EatingHabit.objects.filter(user=User(pk=user)):
+            user_habits = list(EatingHabit.objects.filter(user=User(pk=user)))
+            last_habits = user_habits[-1].date
+            date = datetime.date.today()
+
+            if last_habits + datetime.timedelta(days=21) > date:
+                days = last_habits + datetime.timedelta(days=21) - date
+                return render(request, 'healthsite/habitsnotpermissionadd.html',
+                              {'login': True, 'days': days.days})
+
+        if request.method == 'POST':
+            form = EatingHabitsForm(request.POST)
+            if form.is_valid():
+                habits1 = str(form['habits1'].value())
+                habits2 = str(form['habits2'].value())
+                habits3 = str(form['habits3'].value())
+                habit = EatingHabit(user=User(pk=user), habits1=habits1, habits2=habits2, habits3=habits3)
+                habit.save()
+                return render(request, 'healthsite/habitsview.html',
+                              {'login': True, 'habits': habits})
+
+        form = EatingHabitsForm()
+        return render(request, 'healthsite/habitsadd.html',
+                      {'login': True, 'form': form})
+    else:
+        return render(request, 'healthsite/homepage.html', {'login': False})
+
+
+def habits_check(request):
+    if request.user.is_authenticated:
+        user = request.user.id
+        date = datetime.date.today()
+        if EatingHabit.objects.filter(user=User(pk=user)) and list(EatingHabit.objects.filter(user=User(pk=user)))[
+            -1].date + datetime.timedelta(days=21) > date:
+            check = list(EatingHabit.objects.filter(user=User(pk=user)))
+            check = check[-1]
+            days = date - list(EatingHabit.objects.filter(user=User(pk=user)))[
+                -1].date
+            form = EatingHabitsCheckForm(instance=check)
+            return render(request, 'healthsite/habitscheck.html',
+                          {'login': True, 'form': form, 'number': int(days.days)})
+
+        else:
+            object_is_exist = list(EatingHabit.objects.filter(user=User(pk=user)))
+            # if list(EatingHabit.objects.filter(user=User(pk=user)))[-1].date + datetime.timedelta(days=21) < date:
+            #      communicate = "You can define new habits"
+            #      print(communicate)
+            return render(request, 'healthsite/habitsview.html',
+                          {'login': True})
+
+            # else:
+            #     communicate = "You haven't defined habits yet"
+            #     return render(request, 'healthsite/habitsadd.html', {'login': True, 'communicate': communicate})
+
     else:
         return render(request, 'healthsite/homepage.html', {'login': False})
