@@ -20,3 +20,6 @@ To run this project:
 - create a virtual environment
 - install requirements
 - now you can run this app
+
+## Available at:
+http://healthplanner.pythonanywhere.com/
